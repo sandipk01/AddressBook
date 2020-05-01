@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IAddressBook {
     List<Person> addPerson(Person person) throws IOException;
+    List<Person> editPerson(Person person, String phoneNumber) throws IOException;
 }
