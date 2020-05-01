@@ -9,6 +9,10 @@ public class Person {
     private String zipCode;
     private String phoneNumber;
 
+    public Person() {
+
+    }
+
     public Person(String firstName, String lastName, String address, String city, String state, String zipCode, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
