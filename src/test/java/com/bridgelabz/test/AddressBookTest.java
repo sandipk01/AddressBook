@@ -15,4 +15,14 @@ public class AddressBookTest {
         FileSystem fileSystem = new FileSystem();
         Assert.assertEquals(true, fileSystem.createFile("file1"));
     }
+
+    @Test
+    public void givenJsonFileAddedInDirectory_WhenIfFileIsAlreadyExist_ShouldThrowFileAlreadyExistException() throws IOException {
+        FileSystem fileSystem = new FileSystem();
+        try {
+            fileSystem.createFile("file1");
+        } catch (AddressBookException e) {
+            Assert.assertEquals(AddressBookException.TypeOfException.FILE_ALREADY_EXIST, e.type);
+        }
+    }
 }
