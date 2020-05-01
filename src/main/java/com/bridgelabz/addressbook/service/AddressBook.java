@@ -1,5 +1,6 @@
 package com.bridgelabz.addressbook.service;
 
+import com.bridgelabz.addressbook.enums.Operation;
 import com.bridgelabz.addressbook.exception.AddressBookException;
 import com.bridgelabz.addressbook.model.Person;
 
@@ -34,15 +35,23 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
-    public List<Person> editPerson(Person person, String phoneNumber) throws IOException, AddressBookException {
+    public List<Person> editOrDeletePerson(Person person, String phoneNumber, Operation operation) throws IOException, AddressBookException {
         List<Person> personList = null;
         boolean flag = false;
         personList = fileSystem.readFile();
         ListIterator<Person> listItr = personList.listIterator();
         while (listItr.hasNext()) {
             if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
-                listItr.set(person);
-                flag = true;
+                switch (operation) {
+                    case EDIT:
+                        listItr.set(person);
+                        flag = true;
+                        break;
+                    case DELETE:
+                        listItr.remove();
+                        flag = true;
+                        break;
+                }
             }
         }
         if (flag == false)
