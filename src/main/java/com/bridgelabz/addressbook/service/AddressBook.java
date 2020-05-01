@@ -78,6 +78,14 @@ public class AddressBook implements IAddressBook {
         return sortedList;
     }
 
+    public List<Person> sortByZipCode() throws IOException {
+        List<Person> personList = fileSystem.readFile();
+        List<Person> sortedList = personList.stream()
+                .sorted(Comparator.comparing(Person::getZipCode))
+                .collect(Collectors.toList());
+        return sortedList;
+    }
+
     public boolean isPersonAdded(List<Person> personList, Person person) {
         return personList.stream().anyMatch(item -> item.equals(person));
     }
