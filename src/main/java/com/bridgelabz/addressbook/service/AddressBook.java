@@ -1,13 +1,14 @@
 package com.bridgelabz.addressbook.service;
 
-import com.bridgelabz.addressbook.enums.Operation;
 import com.bridgelabz.addressbook.exception.AddressBookException;
 import com.bridgelabz.addressbook.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 
 public class AddressBook implements IAddressBook {
@@ -18,7 +19,7 @@ public class AddressBook implements IAddressBook {
     }
 
     public IFile getFileSystem() {
-        return fileSystem;
+        return this.fileSystem;
     }
 
     public List<Person> addPerson(Person person) throws IOException {
@@ -35,29 +36,46 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
-    public List<Person> editOrDeletePerson(Person person, String phoneNumber, Operation operation) throws IOException, AddressBookException {
+    public List<Person> editPerson(Person person, String phoneNumber) throws IOException, AddressBookException {
         List<Person> personList = null;
         boolean flag = false;
         personList = fileSystem.readFile();
         ListIterator<Person> listItr = personList.listIterator();
         while (listItr.hasNext()) {
             if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
-                switch (operation) {
-                    case EDIT:
-                        listItr.set(person);
-                        flag = true;
-                        break;
-                    case DELETE:
-                        listItr.remove();
-                        flag = true;
-                        break;
-                }
+                listItr.set(person);
+                flag = true;
             }
         }
         if (flag == false)
             throw new AddressBookException("Given number is invalid", AddressBookException.TypeOfException.INVALID_NUMBER);
         fileSystem.saveFile(personList);
         return personList;
+    }
+
+    public List<Person> deletePerson(String phoneNumber) throws IOException, AddressBookException {
+        List<Person> personList = null;
+        boolean flag = false;
+        personList = fileSystem.readFile();
+        ListIterator<Person> listItr = personList.listIterator();
+        while (listItr.hasNext()) {
+            if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
+                listItr.remove();
+                flag = true;
+            }
+        }
+        if (flag == false)
+            throw new AddressBookException("Given number is invalid", AddressBookException.TypeOfException.INVALID_NUMBER);
+        fileSystem.saveFile(personList);
+        return personList;
+    }
+
+    public List<Person> sortByLastName() throws IOException {
+        List<Person> personList = fileSystem.readFile();
+        List<Person> sortedList = personList.stream()
+                .sorted(Comparator.comparing(Person::getLastName))
+                .collect(Collectors.toList());
+        return sortedList;
     }
 
     public boolean isPersonAdded(List<Person> personList, Person person) {
