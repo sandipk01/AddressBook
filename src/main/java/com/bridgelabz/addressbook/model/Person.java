@@ -1,5 +1,7 @@
 package com.bridgelabz.addressbook.model;
 
+import java.util.Objects;
+
 public class Person {
     private String firstName;
     private String lastName;
@@ -50,4 +52,19 @@ public class Person {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName) &&
+                Objects.equals(address, person.address) &&
+                Objects.equals(city, person.city) &&
+                Objects.equals(state, person.state) &&
+                Objects.equals(zipCode, person.zipCode) &&
+                Objects.equals(phoneNumber, person.phoneNumber);
+    }
+
 }
