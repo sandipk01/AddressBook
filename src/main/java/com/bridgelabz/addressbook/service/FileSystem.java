@@ -22,7 +22,7 @@ public class FileSystem implements IFile {
     }
 
     public File getFile() {
-        return file;
+        return this.file;
     }
 
     public boolean createFile() throws IOException, AddressBookException {
@@ -35,11 +35,11 @@ public class FileSystem implements IFile {
     }
 
     public void saveFile(List<Person> personList) throws IOException {
-        mapper.writeValue(file, personList);
+        mapper.writeValue(this.file, personList);
     }
 
     public List<Person> readFile() throws IOException {
-        return mapper.readValue(file, new TypeReference<ArrayList<Person>>() {
+        return mapper.readValue(this.file, new TypeReference<ArrayList<Person>>() {
         });
     }
 }
