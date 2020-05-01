@@ -16,4 +16,6 @@ public interface IFile {
     void saveFile(List<Person> personList) throws IOException;
 
     List<Person> readFile() throws IOException;
+
+    File getFile();
 }
