@@ -19,4 +19,6 @@ public interface IAddressBook {
     boolean isPersonAdded(List<Person> personList, Person person);
 
     List<Person> sortByLastName() throws IOException;
+
+    List<Person> sortByZipCode() throws IOException;
 }
