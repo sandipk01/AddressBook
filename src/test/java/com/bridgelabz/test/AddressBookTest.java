@@ -5,7 +5,6 @@ import com.bridgelabz.addressbook.model.Person;
 import com.bridgelabz.addressbook.service.AddressBook;
 import com.bridgelabz.addressbook.service.FileSystem;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -49,9 +48,18 @@ public class AddressBookTest {
 
     @Test
     public void givenAddressBook_WhenAddPerson_ShouldReturnCountOfEntry() throws IOException {
-        AddressBook addressBook=new AddressBook("file2");
-        Person person = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "7784858478");
+        AddressBook addressBook = new AddressBook("file2");
+        Person person = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624514");
         addressBook.addPerson(person);
         Assert.assertEquals(2, addressBook.getFileSystem().readFile().size());
+    }
+
+    @Test
+    public void givenAddressBook_WhenEditPerson_ShouldReturnChangedObject() throws IOException {
+        AddressBook addressBook = new AddressBook("file2");
+        Person person = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "8895968451");
+        addressBook.editPerson(person, "7784858478");
+        List<Person> personList = addressBook.getFileSystem().readFile();
+        Assert.assertEquals(true, addressBook.isPersonAdded(personList, person));
     }
 }
