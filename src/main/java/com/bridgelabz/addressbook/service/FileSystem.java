@@ -16,22 +16,18 @@ public class FileSystem implements IFile {
     private ObjectMapper mapper;
     private File file;
 
-    public FileSystem() throws IOException {
+    public FileSystem(String file) throws IOException {
+        this.file = new File(FILEPATH + file + ".json");
         mapper = new ObjectMapper();
     }
 
-    public boolean createFile(String file) throws IOException, AddressBookException {
-        this.file = new File(FILEPATH + file + ".json");
+    public boolean createFile() throws IOException, AddressBookException {
         if (this.file.exists()) {
             throw new AddressBookException("File is Already Exist", AddressBookException.TypeOfException.FILE_ALREADY_EXIST);
         } else {
             this.file.createNewFile();
             return true;
         }
-    }
-
-    public File getFile() {
-        return file;
     }
 
     public void saveFile(List<Person> personList) throws IOException {
