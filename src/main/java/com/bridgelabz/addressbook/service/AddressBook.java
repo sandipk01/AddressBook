@@ -1,13 +1,14 @@
 package com.bridgelabz.addressbook.service;
 
+import com.bridgelabz.addressbook.exception.AddressBookException;
 import com.bridgelabz.addressbook.model.Person;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.Optional;
+
 
 public class AddressBook implements IAddressBook {
     private FileSystem fileSystem;
@@ -34,15 +35,19 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
-    public List<Person> editPerson(Person person, String phoneNumber) throws IOException {
+    public List<Person> editPerson(Person person, String phoneNumber) throws IOException, AddressBookException {
         List<Person> personList = null;
+        boolean flag = false;
         personList = fileSystem.readFile();
         ListIterator<Person> listItr = personList.listIterator();
         while (listItr.hasNext()) {
             if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
                 listItr.set(person);
+                flag = true;
             }
         }
+        if (flag == false)
+            throw new AddressBookException("Given number is invalid", AddressBookException.TypeOfException.INVALID_NUMBER);
         fileSystem.saveFile(personList);
         return personList;
     }
