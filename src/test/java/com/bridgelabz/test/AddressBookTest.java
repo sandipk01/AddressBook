@@ -39,4 +39,10 @@ public class AddressBookTest {
         fileSystem.saveFile(personArrayList);
         Assert.assertEquals(1, fileSystem.readFile().size());
     }
+
+    @Test
+    public void givenJsonFile_WhenReadEntry_ShouldReturnCountOfEntry() throws IOException {
+        FileSystem fileSystem = new FileSystem("file2");
+        Assert.assertEquals(1, fileSystem.readFile().size());
+    }
 }
