@@ -102,4 +102,11 @@ public class AddressBookTest {
         List<Person> sortByLastName = addressBook.sortByLastName();
         Assert.assertEquals(true, originalList.containsAll(sortByLastName));
     }
+
+    @Test
+    public void givenAddressBook_WhenSortedByZipCode_ShouldReturnSortedList() throws IOException {
+        List<Person> originalList = addressBook.getFileSystem().readFile();
+        List<Person> sortByLastName = addressBook.sortByZipCode();
+        Assert.assertEquals(true, originalList.containsAll(sortByLastName));
+    }
 }
