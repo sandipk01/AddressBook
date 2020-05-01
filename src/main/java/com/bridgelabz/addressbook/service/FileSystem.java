@@ -16,9 +16,13 @@ public class FileSystem implements IFile {
     private ObjectMapper mapper;
     private File file;
 
-    public FileSystem(String file) throws IOException {
+    public FileSystem(String file) {
         this.file = new File(FILEPATH + file + ".json");
         mapper = new ObjectMapper();
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public boolean createFile() throws IOException, AddressBookException {
