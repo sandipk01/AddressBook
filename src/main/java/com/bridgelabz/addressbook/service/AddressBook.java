@@ -7,17 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 
 public class AddressBook implements IAddressBook {
-    private FileSystem fileSystem;
+    private IFile fileSystem;
 
     public AddressBook(String file) {
         this.fileSystem = new FileSystem(file);
     }
 
-    public FileSystem getFileSystem() {
+    public IFile getFileSystem() {
         return fileSystem;
     }
 
