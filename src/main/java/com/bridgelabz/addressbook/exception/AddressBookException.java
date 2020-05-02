@@ -2,7 +2,7 @@ package com.bridgelabz.addressbook.exception;
 
 public class AddressBookException extends Exception{
     public enum TypeOfException{
-        FILE_ALREADY_EXIST,INVALID_NUMBER;
+        FILE_ALREADY_EXIST,INVALID_INDEX;
     }
 
     public TypeOfException type;

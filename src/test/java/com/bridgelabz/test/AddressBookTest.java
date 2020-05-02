@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBookTest {
-    private IFile fileSystem;
+    private FileSystem fileSystem;
     private IAddressBook addressBook;
 
     @Before
@@ -61,8 +61,8 @@ public class AddressBookTest {
         Person person = new Person("Jhon", "Rrike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624514");
         Person person1 = new Person("Jhon", "zrike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624514");
         Person person2 = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624515");
-        Person person3 = new Person("Jhon", "Crike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624516");
-        Person person4 = new Person("Jhon", "Arike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624518");
+        Person person3 = new Person("Vijay", "Crike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624516");
+        Person person4 = new Person("Roni", "Arike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9985624518");
         addressBook.addPerson(person);
         addressBook.addPerson(person1);
         addressBook.addPerson(person2);
@@ -73,26 +73,39 @@ public class AddressBookTest {
 
     @Test
     public void givenAddressBook_WhenEditPerson_ShouldReturnChangedObject() throws IOException, AddressBookException {
-        Person person = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "5656565656");
-        addressBook.editPerson(person, addressBook.getFileSystem().readFile().get(0).getPhoneNumber());
         List<Person> personList = addressBook.getFileSystem().readFile();
-        Assert.assertEquals(true, addressBook.isPersonAdded(personList, person));
+        Person oldPerson = personList.get(0);
+        Person person = new Person();
+        person.setFirstName("Shon");
+        person.setLastName("Hamilton");
+        person.setPhoneNumber("9985624518");
+        person.setCity("Pune");
+        person.setAddress(oldPerson.getCity());
+        person.setZipCode(oldPerson.getZipCode());
+        person.setState(oldPerson.getState());
+        person.setAddress(oldPerson.getAddress());
+        addressBook.editPerson(0, person);
+        List<Person> updatedList = addressBook.getFileSystem().readFile();
+        Assert.assertEquals(true, addressBook.isPersonAdded(updatedList, person));
     }
 
     @Test
-    public void givenAddressBook_WhenEditPersonGivenWrongInput_ShouldThrowInvalidNumberException() throws IOException {
-        Person person = new Person("Jhon", "Brike", "Mumbai", "Mumbai", "Maharashtra", "11457744", "8888888888");
+    public void givenAddressBook_WhenEditPersonGivenWrongIndex_ShouldThrowInvalidIndexException() throws IOException {
+        Person person = new Person();
+        person.setFirstName("Shon");
+        person.setLastName("Hamilton");
+        person.setPhoneNumber("9985624518");
         try {
-            addressBook.editPerson(person, "1245414784");
+            addressBook.editPerson(10, person);
         } catch (AddressBookException e) {
-            Assert.assertEquals(AddressBookException.TypeOfException.INVALID_NUMBER, e.type);
+            Assert.assertEquals(AddressBookException.TypeOfException.INVALID_INDEX, e.type);
         }
     }
 
     @Test
     public void givenAddressBook_WhenDeletePerson_ShouldReturnTrue() throws IOException, AddressBookException {
         int fileSize = addressBook.getFileSystem().readFile().size();
-        addressBook.deletePerson(addressBook.getFileSystem().readFile().get(0).getPhoneNumber());
+        addressBook.deletePerson(5);
         Assert.assertEquals(fileSize - 1, addressBook.getFileSystem().readFile().size());
     }
 

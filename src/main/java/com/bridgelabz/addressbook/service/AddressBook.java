@@ -36,36 +36,20 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
-    public List<Person> editPerson(Person person, String phoneNumber) throws IOException, AddressBookException {
-        List<Person> personList = null;
-        boolean flag = false;
-        personList = fileSystem.readFile();
-        ListIterator<Person> listItr = personList.listIterator();
-        while (listItr.hasNext()) {
-            if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
-                listItr.set(person);
-                flag = true;
-            }
+    public List<Person> editPerson(int index, Person person) throws IOException, AddressBookException {
+        List<Person> personList = fileSystem.readFile();
+        if (personList.size() > index) {
+            personList.set(index, person);
+            fileSystem.saveFile(personList);
+        } else {
+            throw new AddressBookException("Invalid index", AddressBookException.TypeOfException.INVALID_INDEX);
         }
-        if (flag == false)
-            throw new AddressBookException("Given number is invalid", AddressBookException.TypeOfException.INVALID_NUMBER);
-        fileSystem.saveFile(personList);
         return personList;
     }
 
-    public List<Person> deletePerson(String phoneNumber) throws IOException, AddressBookException {
-        List<Person> personList = null;
-        boolean flag = false;
-        personList = fileSystem.readFile();
-        ListIterator<Person> listItr = personList.listIterator();
-        while (listItr.hasNext()) {
-            if (listItr.next().getPhoneNumber().equals(phoneNumber)) {
-                listItr.remove();
-                flag = true;
-            }
-        }
-        if (flag == false)
-            throw new AddressBookException("Given number is invalid", AddressBookException.TypeOfException.INVALID_NUMBER);
+    public List<Person> deletePerson(int index) throws IOException, AddressBookException {
+        List<Person> personList = fileSystem.readFile();
+        personList.remove(index);
         fileSystem.saveFile(personList);
         return personList;
     }

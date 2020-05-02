@@ -10,9 +10,9 @@ public interface IAddressBook {
 
     List<Person> addPerson(Person person) throws IOException;
 
-    List<Person> editPerson(Person person, String phoneNumber) throws IOException, AddressBookException;
+    List<Person> editPerson(int index, Person person) throws IOException, AddressBookException;
 
-    List<Person> deletePerson(String phoneNumber) throws IOException, AddressBookException;
+    List<Person> deletePerson(int index) throws IOException, AddressBookException;
 
     IFile getFileSystem();
 
