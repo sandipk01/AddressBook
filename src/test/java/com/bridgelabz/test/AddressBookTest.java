@@ -11,9 +11,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bridgelabz.addressbook.service.IFile.FILEPATH;
 
 public class AddressBookTest {
     private FileSystem fileSystem;
@@ -121,5 +124,14 @@ public class AddressBookTest {
         List<Person> originalList = addressBook.getFileSystem().readFile();
         List<Person> sortByLastName = addressBook.sortByZipCode();
         Assert.assertEquals(true, originalList.containsAll(sortByLastName));
+    }
+
+    @Test
+    public void givenAddressBook_WhenSaveAs_ShouldReturnNewFile() throws IOException {
+        AddressBook addressBook=new AddressBook("file1");
+        File oldFile = addressBook.getFileSystem().getFile();
+        addressBook.getFileSystem().saveAs("file16");
+        File newFile = addressBook.getFileSystem().getFile();
+        Assert.assertEquals("file16.json", addressBook.getFileSystem().getFile().getName());
     }
 }
