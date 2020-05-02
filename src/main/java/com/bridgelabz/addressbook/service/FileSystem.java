@@ -41,6 +41,16 @@ public class FileSystem implements IFile {
         mapper.writeValue(this.file, personList);
     }
 
+    //Save as file
+    public boolean saveAs(String newFileName) {
+        File oldFile = this.file;
+        File newFile = new File(FILEPATH + newFileName + ".json");
+        if (oldFile.exists())
+            return oldFile.renameTo(newFile);
+        this.file = newFile;
+        return false;
+    }
+
     //Reading existing file
     public List<Person> readFile() throws IOException {
         return mapper.readValue(this.file, new TypeReference<ArrayList<Person>>() {
