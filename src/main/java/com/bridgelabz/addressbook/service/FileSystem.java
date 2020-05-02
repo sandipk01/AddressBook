@@ -21,10 +21,12 @@ public class FileSystem implements IFile {
         mapper = new ObjectMapper();
     }
 
+    //Getting file path
     public File getFile() {
         return this.file;
     }
 
+    //Creating new file
     public boolean createFile() throws IOException, AddressBookException {
         if (this.file.exists()) {
             throw new AddressBookException("File is Already Exist", AddressBookException.TypeOfException.FILE_ALREADY_EXIST);
@@ -34,10 +36,12 @@ public class FileSystem implements IFile {
         }
     }
 
+    //Saving or writing file
     public void saveFile(List<Person> personList) throws IOException {
         mapper.writeValue(this.file, personList);
     }
 
+    //Reading existing file
     public List<Person> readFile() throws IOException {
         return mapper.readValue(this.file, new TypeReference<ArrayList<Person>>() {
         });

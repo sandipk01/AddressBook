@@ -18,10 +18,12 @@ public class AddressBook implements IAddressBook {
         this.fileSystem = new FileSystem(file);
     }
 
+    //Getting file system object
     public IFile getFileSystem() {
         return this.fileSystem;
     }
 
+    //Adding new person in address book
     public List<Person> addPerson(Person person) throws IOException {
         List<Person> personList = null;
         if (fileSystem.getFile().length() == 0) {
@@ -36,6 +38,7 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
+    //Editing existing person from address book
     public List<Person> editPerson(int index, Person person) throws IOException, AddressBookException {
         List<Person> personList = fileSystem.readFile();
         if (personList.size() > index) {
@@ -47,6 +50,7 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
+    //Deleting person from address book
     public List<Person> deletePerson(int index) throws IOException, AddressBookException {
         List<Person> personList = fileSystem.readFile();
         personList.remove(index);
@@ -54,6 +58,7 @@ public class AddressBook implements IAddressBook {
         return personList;
     }
 
+    //Sorting person by last name
     public List<Person> sortByLastName() throws IOException {
         List<Person> personList = fileSystem.readFile();
         List<Person> sortedList = personList.stream()
@@ -62,6 +67,7 @@ public class AddressBook implements IAddressBook {
         return sortedList;
     }
 
+    //Sorting person by zip code
     public List<Person> sortByZipCode() throws IOException {
         List<Person> personList = fileSystem.readFile();
         List<Person> sortedList = personList.stream()
@@ -70,6 +76,7 @@ public class AddressBook implements IAddressBook {
         return sortedList;
     }
 
+    //Checking if person is exist or not
     public boolean isPersonAdded(List<Person> personList, Person person) {
         return personList.stream().anyMatch(item -> item.equals(person));
     }
