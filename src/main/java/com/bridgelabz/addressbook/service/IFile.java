@@ -6,6 +6,7 @@ import com.bridgelabz.addressbook.model.Person;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface IFile {
 
@@ -20,4 +21,6 @@ public interface IFile {
     List<Person> readFile() throws IOException;
 
     File getFile();
+
+    Map<Integer, File> getAddressBooks();
 }

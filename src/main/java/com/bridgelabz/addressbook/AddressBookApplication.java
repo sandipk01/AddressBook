@@ -8,6 +8,6 @@ import java.io.IOException;
 public class AddressBookApplication {
     public static void main(String[] args) throws IOException, AddressBookException {
         AddressBookController addressBookController=new AddressBookController();
-        addressBookController.dashBoard();
+        addressBookController.applicationDashBoard();
     }
 }

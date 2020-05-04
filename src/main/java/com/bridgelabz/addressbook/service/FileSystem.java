@@ -8,13 +8,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FileSystem implements IFile {
 
     private ObjectMapper mapper;
     private File file;
+
+    public FileSystem() { }
 
     public FileSystem(String file) {
         this.file = new File(FILEPATH + file + ".json");
@@ -55,5 +59,18 @@ public class FileSystem implements IFile {
     public List<Person> readFile() throws IOException {
         return mapper.readValue(this.file, new TypeReference<ArrayList<Person>>() {
         });
+    }
+
+    //Getting list of files
+    public Map<Integer, File> getAddressBooks() {
+        int count = 1;
+        Map<Integer, File> files = new LinkedHashMap<>();
+        File file = new File(FILEPATH);
+        File[] listOfFiles = file.listFiles();
+        for (File book : listOfFiles) {
+            files.put(count, book);
+            count++;
+        }
+        return files;
     }
 }

@@ -7,13 +7,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
 public class AddressBook implements IAddressBook {
     private IFile fileSystem;
 
+    //Initializing file system
     public AddressBook(String file) {
         this.fileSystem = new FileSystem(file);
     }
@@ -80,4 +81,14 @@ public class AddressBook implements IAddressBook {
     public boolean isPersonAdded(List<Person> personList, Person person) {
         return personList.stream().anyMatch(item -> item.equals(person));
     }
+
+    //Showing the list of persons
+    public void showPerson() throws IOException {
+        AtomicInteger counter= new AtomicInteger(1);
+        List<Person> personList= fileSystem.readFile();
+        personList.forEach(person -> System.out.println(counter.getAndIncrement() +" "+person.getFirstName() + " " + person.getLastName() + " " +
+                person.getAddress() + " " + person.getCity() + " " + person.getState() + " " + person.getZipCode() + " " +
+                person.getPhoneNumber()));
+    }
+
 }
