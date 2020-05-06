@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import static com.bridgelabz.addressbook.service.IFile.FILEPATH;
 
 
 public class AddressBookController {
@@ -24,6 +23,7 @@ public class AddressBookController {
     private IFile fileSystem;
     private Person person;
     private String firstName, lastName, address, city, state, zipCode, phoneNumber;
+    private int choice,index;
 
     public AddressBookController() {
         this.addressBookMap = new LinkedHashMap<>();
@@ -36,7 +36,7 @@ public class AddressBookController {
         while (!exitSystem) {
             System.out.println("-----Welcome To Address Book Application----- \n1. Create new File." +
                     " \n2. Open existing file. \n3. Exit application.");
-            int choice = scanner.nextInt();
+            choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     System.out.println("Enter file name");
@@ -60,11 +60,9 @@ public class AddressBookController {
         while (!exitAddressBook) {
             System.out.println("Select File That you want to Open: \n0. Close");
             addressBookMap = fileSystem.getAddressBooks();
-            for (Map.Entry<Integer, File> personEntry : addressBookMap.entrySet()) {
-                System.out.println(personEntry.getKey() + "  " + personEntry.getValue().getName());
-            }
+            addressBookMap.forEach((k, v) -> System.out.println((k + ". " + v.getName())));
             System.out.println("Enter index number: ");
-            int index = scanner.nextInt();
+            index = scanner.nextInt();
             File file = addressBookMap.get(index);
             if (index == 0) {
                 exitAddressBook = true;
@@ -72,8 +70,9 @@ public class AddressBookController {
                 IAddressBook addressBook = new AddressBook(file.getName().replace(".json", ""));
                 System.out.println("---------------" + file.getName() + " is opened" + "----------------");
                 System.out.println("1. Add new person \n2. Show persons \n3. Edit person" +
-                        "\n4. Delete person \n5. Close address book");
-                int choice = scanner.nextInt();
+                        "\n4. Delete person \n5. Sort by last name \n6. Sort by zip code" +
+                        " \n7. Close address book");
+                choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
                         System.out.println("Enter first name");
@@ -94,10 +93,10 @@ public class AddressBookController {
                         addressBook.addPerson(person);
                         break;
                     case 2:
-                        addressBook.showPerson();
+                        addressBook.showPerson(addressBook.getFileSystem().readFile());
                         break;
                     case 3:
-                        addressBook.showPerson();
+                        addressBook.showPerson(addressBook.getFileSystem().readFile());
                         System.out.println("Enter the person index :");
                         index = scanner.nextInt();
                         List<Person> personList = addressBook.getFileSystem().readFile();
@@ -133,14 +132,21 @@ public class AddressBookController {
                                 break;
                         }
                         addressBook.editPerson(index-1 , editPerson);
-                        addressBook.showPerson();
+                        addressBook.showPerson(addressBook.editPerson(index-1 , editPerson));
                         break;
                     case 4:
+                        addressBook.showPerson(addressBook.getFileSystem().readFile());
                         System.out.println("Enter The index :");
                         index=scanner.nextInt();
-                        addressBook.deletePerson(index);
+                        addressBook.showPerson(addressBook.deletePerson(index-1));
                         break;
                     case 5:
+                        addressBook.showPerson(addressBook.sortByLastName());
+                        break;
+                    case 6:
+                        addressBook.showPerson(addressBook.sortByZipCode());
+                        break;
+                    case 7:
                         exitAddressBook = true;
                 }
             }
