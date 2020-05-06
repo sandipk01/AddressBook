@@ -7,10 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class FileSystem implements IFile {
@@ -63,14 +61,11 @@ public class FileSystem implements IFile {
 
     //Getting list of files
     public Map<Integer, File> getAddressBooks() {
-        int count = 1;
+        AtomicInteger counter = new AtomicInteger(1);
         Map<Integer, File> files = new LinkedHashMap<>();
         File file = new File(FILEPATH);
-        File[] listOfFiles = file.listFiles();
-        for (File book : listOfFiles) {
-            files.put(count, book);
-            count++;
-        }
+        List<File> listOfFiles = Arrays.asList(file.listFiles());
+        listOfFiles.stream().forEach((c) -> files.put(counter.getAndIncrement(),c));
         return files;
     }
 }

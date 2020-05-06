@@ -83,10 +83,9 @@ public class AddressBook implements IAddressBook {
     }
 
     //Showing the list of persons
-    public void showPerson() throws IOException {
-        AtomicInteger counter= new AtomicInteger(1);
-        List<Person> personList= fileSystem.readFile();
-        personList.forEach(person -> System.out.println(counter.getAndIncrement() +" "+person.getFirstName() + " " + person.getLastName() + " " +
+    public void showPerson(List<Person> personList) {
+        AtomicInteger counter = new AtomicInteger(1);
+        personList.forEach(person -> System.out.println(counter.getAndIncrement() + " " + person.getFirstName() + " " + person.getLastName() + " " +
                 person.getAddress() + " " + person.getCity() + " " + person.getState() + " " + person.getZipCode() + " " +
                 person.getPhoneNumber()));
     }

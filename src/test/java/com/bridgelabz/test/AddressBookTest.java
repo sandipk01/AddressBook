@@ -47,7 +47,7 @@ public class AddressBookTest {
     @Test
     public void givenJsonFile_WhenAddedEntry_ShouldReturnCountOfEntry() throws IOException {
         List<Person> personArrayList = new ArrayList<>();
-        Person person = new Person("sandip", "kengar", "Mumbai", "Mumbai", "Maharashtra", "11457744", "7784858478");
+        Person person = new Person("sandip", "kengar", "Mumbai", "Mumbai", "Maharashtra", "11457744", "9999999999");
         personArrayList.add(person);
         fileSystem.saveFile(personArrayList);
         Assert.assertEquals(1, fileSystem.readFile().size());

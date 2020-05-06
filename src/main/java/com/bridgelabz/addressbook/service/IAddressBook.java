@@ -22,5 +22,5 @@ public interface IAddressBook {
 
     List<Person> sortByZipCode() throws IOException;
 
-    void showPerson() throws IOException;
+    void showPerson(List<Person> personList);
 }
